@@ -1,7 +1,7 @@
 function Hero() {
     return (
-        <div className="w-[80%] m-auto grid md:grid-cols-3 mt-20 gap-5">
-            <div className="md:col-span-2 flex flex-col gap-4">
+        <div className="w-[80%] m-auto grid lg:grid-cols-3 mt-20 gap-5">
+            <div className="lg:col-span-2 flex flex-col gap-4">
                 <h1 className="text-6xl">Test your candidates</h1>
                 <h1 className="text-6xl">Pick the best</h1>
                 <p className="text-xl">
