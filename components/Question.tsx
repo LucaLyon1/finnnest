@@ -6,7 +6,7 @@ interface QuestionProps {
 function Question({ title, questions }: QuestionProps) {
     const questionElements = questions.map((q, i) => (
         <div key={i} className="flex items-center gap-2 mt-5">
-            <div className="w-6 h-6 rounded-full border-[4px] border-slate-300"></div>
+            <div className="min-w-6 h-6 rounded-full border-[4px] border-slate-300"></div>
             <p>{q}</p>
         </div>
     ))
