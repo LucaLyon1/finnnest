@@ -1,10 +1,33 @@
 'use client';
 
+import QuestionInput from "@/components/QuestionInput";
 import Subheader from "@/components/Subheader";
-import { useState } from "react";
+import { Question } from "@/types/question";
+import { useRef, useState } from "react";
 
 function createTest() {
-    let [questions, setQuestions] = useState([]);
+    let [questions, setQuestions] = useState<Question[]>([]);
+    let [idTrack, setTrack] = useState(1);
+
+    const setType = (id: number, type: string) => {
+        setQuestions((prev) => {
+            let modif: Question[] = [];
+            prev.forEach((q) => {
+                if (q.id !== id) modif.push(q);
+                else modif.push({ id: q.id, type: type })
+            })
+            return modif;
+        });
+    }
+
+    const addQuestion = () => {
+        setQuestions((prev) => ([...prev, { id: idTrack, type: 'yesno', setType: setType }]));
+        setTrack((c) => c + 1)
+    }
+
+    let questionElemens = questions.map((q) => (
+        <QuestionInput key={q.id} id={q.id} type={q.type} setType={setType} />
+    ))
     return (
         <div>
             <Subheader />
@@ -24,27 +47,12 @@ function createTest() {
                 </div>
                 {/* TODO:  own component, type as prop*/}
                 <div className="col-span-3 border border-[#D8D8D8] w-[90%] m-auto rounded-lg shadow-sm p-10 flex flex-col gap-10">
-                    <div className="flex gap-5">
-                        <h2 className="text-2xl">Merger & Acquisition</h2>
-                        <select name="question" id="cars" className="bg-[#F0F0F0] rounded-lg w-[200px]">
-                            <option value="yesno">Yes/No</option>
-                            <option value="mcq">Multiple Choice</option>
-                            <option value="text">Open question</option>
-                            <option value="file">File input</option>
-                        </select>
-                    </div>
+                    <h2 className="text-2xl">Merger & Acquisition</h2>
                     <p>The future junior should be able to work in complex context such as multi-layered LBO,
                         and quickly and accurately report a high volume of information</p>
                     <hr />
-                    <div className="flex gap-5 flex-col p-4 border border-[#D8D8D8] rounded-lg">
-                        <label htmlFor="title" className="text-xl">Question 1</label>
-                        <textarea className="p-4 border border-[#D8D8D8] rounded-lg w-full h-[200px]" placeholder="Write the question here..."></textarea>
-                        <div className="flex w-full justify-between gap-5">
-                            <button className="w-full bg-[#F0F0F0] h-14 font-medium text-xl rounded-lg hover:bg-cyan-400 hover:text-white transition-all duration-300">Yes</button>
-                            <button className="w-full bg-[#F0F0F0] h-14 font-medium text-xl rounded-lg hover:bg-cyan-400 hover:text-white transition-all duration-300">No</button>
-                        </div>
-                    </div>
-                    <button className="m-auto w-[300px] py-2 text-cyan-400 border border-[#D8D8D8] rounded-md hover:bg-[#FAFAFA]">Add question</button>
+                    {questionElemens}
+                    <button className="m-auto w-[300px] py-2 text-cyan-400 border border-[#D8D8D8] rounded-md hover:bg-[#FAFAFA]" onClick={addQuestion}>Add question</button>
                 </div>
             </div>
         </div>
