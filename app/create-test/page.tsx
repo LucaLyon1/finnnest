@@ -1,6 +1,10 @@
+'use client';
+
 import Subheader from "@/components/Subheader";
+import { useState } from "react";
 
 function createTest() {
+    let [questions, setQuestions] = useState([]);
     return (
         <div>
             <Subheader />
