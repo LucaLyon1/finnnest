@@ -2,31 +2,19 @@
 
 import QuestionInput from "@/components/QuestionInput";
 import Subheader from "@/components/Subheader";
+import { useTestContext } from "@/lib/testContext";
 import { Question, QuestionType } from "@/types/question";
 import { useState } from "react";
 
 function createTest() {
-    let [questions, setQuestions] = useState<Question[]>([]);
-    let [idTrack, setTrack] = useState(1);
+    const { questions, addQuestion, removeQuestion, updateQuestionType, updateQuestionData } = useTestContext();
 
-    const setType = (id: number, type: QuestionType) => {
-        setQuestions((prev) => {
-            let modif: Question[] = [];
-            prev.forEach((q) => {
-                if (q.id !== id) modif.push(q);
-                else modif.push({ id: q.id, type: type })
-            })
-            return modif;
-        });
-    }
-
-    const addQuestion = () => {
-        setQuestions((prev) => ([...prev, { id: idTrack, type: 'yesno' }]));
-        setTrack((c) => c + 1)
+    let handleAdd = () => {
+        addQuestion();
     }
 
     let questionElemens = questions.map((q) => (
-        <QuestionInput key={q.id} id={q.id} type={q.type} setType={setType} />
+        <QuestionInput key={q.id} id={q.id} type={q.type} setType={updateQuestionType} />
     ))
     return (
         <div>
@@ -52,7 +40,7 @@ function createTest() {
                         and quickly and accurately report a high volume of information</p>
                     <hr />
                     {questionElemens}
-                    <button className="m-auto w-[300px] py-2 text-cyan-400 border border-[#D8D8D8] rounded-md hover:bg-[#FAFAFA]" onClick={addQuestion}>Add question</button>
+                    <button className="m-auto w-[300px] py-2 text-cyan-400 border border-[#D8D8D8] rounded-md hover:bg-[#FAFAFA]" onClick={handleAdd}>Add question</button>
                 </div>
             </div>
         </div>
@@ -60,3 +48,7 @@ function createTest() {
 }
 
 export default createTest;
+
+function useQuestionContext(): { questions: any; addQuestion: any; removeQuestion: any; updateQuestionType: any; updateQuestionData: any; } {
+    throw new Error("Function not implemented.");
+}
