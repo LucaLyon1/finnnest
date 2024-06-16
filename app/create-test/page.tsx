@@ -2,14 +2,14 @@
 
 import QuestionInput from "@/components/QuestionInput";
 import Subheader from "@/components/Subheader";
-import { Question } from "@/types/question";
-import { useRef, useState } from "react";
+import { Question, QuestionType } from "@/types/question";
+import { useState } from "react";
 
 function createTest() {
     let [questions, setQuestions] = useState<Question[]>([]);
     let [idTrack, setTrack] = useState(1);
 
-    const setType = (id: number, type: string) => {
+    const setType = (id: number, type: QuestionType) => {
         setQuestions((prev) => {
             let modif: Question[] = [];
             prev.forEach((q) => {
@@ -21,7 +21,7 @@ function createTest() {
     }
 
     const addQuestion = () => {
-        setQuestions((prev) => ([...prev, { id: idTrack, type: 'yesno', setType: setType }]));
+        setQuestions((prev) => ([...prev, { id: idTrack, type: 'yesno' }]));
         setTrack((c) => c + 1)
     }
 

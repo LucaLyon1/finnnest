@@ -1,21 +1,21 @@
 'use client';
 
-import { ChangeEvent, useRef, useState } from "react"
+import { ChangeEvent, useState } from "react"
 import YesNo from "./questionTypes/YesNo";
 import MultipleChoice from "./questionTypes/MultipleChoice";
 import OpenQuestion from "./questionTypes/OpenQuestion";
 import FileQuestion from "./questionTypes/FileQuestion";
+import { QuestionType } from "@/types/question";
 
 interface questionProps {
     id: number,
     type: string,
-    setType: (arg0: number, arg1: string) => void,
+    setType: (arg0: number, arg1: QuestionType) => void,
 }
 
 export default function QuestionInput({ id, type, setType }: questionProps) {
-    //TODO: each question in its own component
     let handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        const selected = event.target.value;
+        const selected = event.target.value as QuestionType;
         setType(id, selected)
     }
 
