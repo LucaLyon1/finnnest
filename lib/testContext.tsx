@@ -1,15 +1,16 @@
 import { Question, QuestionType } from "@/types/question";
 import { ReactNode, createContext, useContext, useState } from "react";
 
-interface QuestionContextType {
+interface TestContextType {
     questions: Question[];
     addQuestion: () => void;
     removeQuestion: (id: number) => void;
     updateQuestionType: (id: number, type: QuestionType) => void;
     updateQuestionData: (id: number, data: any) => void;
+    getData: (id: number) => any;
 }
 
-const testContext = createContext<QuestionContextType | undefined>(undefined);
+const testContext = createContext<TestContextType | undefined>(undefined);
 
 export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [questions, setQuestions] = useState<Question[]>([]);
@@ -25,9 +26,13 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
     const updateQuestionData = (id: number, data: any) => {
         setQuestions(prev => prev.map(q => q.id === id ? { ...q, data } : q));
+        console.log(questions);
+    }
+    const getData = (id: number) => {
+        return questions.filter((q) => q.id === id)[0].data
     }
     return (
-        <testContext.Provider value={{ questions, addQuestion, removeQuestion, updateQuestionType, updateQuestionData }}
+        <testContext.Provider value={{ questions, addQuestion, removeQuestion, updateQuestionType, updateQuestionData, getData }}
         >
             {children}
         </testContext.Provider>

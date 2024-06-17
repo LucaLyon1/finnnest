@@ -1,7 +1,8 @@
 'use client';
+import { QuestionProps } from "@/types/questionProps";
 import { ChangeEvent, useRef, useState } from "react";
 
-function FileQuestion() {
+function FileQuestion({ id, setData }: QuestionProps) {
     let [selectedFile, setSelectedFile] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -40,7 +41,6 @@ function FileQuestion() {
 
     return (
         <>
-            <textarea className="p-4 border border-[#D8D8D8] rounded-lg w-full h-[200px]" placeholder="Write the question here..."></textarea>
             <label htmlFor="fileQ">Drop the file here</label>
             <input onChange={handleFile} ref={fileInputRef} type="file" name="questFile" />
         </>

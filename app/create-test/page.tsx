@@ -14,7 +14,7 @@ function createTest() {
     }
 
     let questionElemens = questions.map((q) => (
-        <QuestionInput key={q.id} id={q.id} type={q.type} setType={updateQuestionType} />
+        <QuestionInput key={q.id} id={q.id} type={q.type} setType={updateQuestionType} setData={updateQuestionData} />
     ))
     return (
         <div>

@@ -1,9 +1,14 @@
-import { ChangeEvent, useState } from "react";
+'use client';
+
+import { useTestContext } from "@/lib/testContext";
+import { QuestionProps } from "@/types/questionProps";
+import { ChangeEvent, useState, useEffect } from "react";
 
 
-function MultipleChoice() {
+function MultipleChoice({ id, setData }: QuestionProps) {
     let [answer, setAnswer] = useState<string[]>([]);
     let [correctAnswer, setCorrectAnswer] = useState(0);
+    let { getData } = useTestContext();
 
     let handleType = (event: ChangeEvent<HTMLInputElement>, i: number) => {
         const value = event.target.value;
@@ -16,6 +21,18 @@ function MultipleChoice() {
         setCorrectAnswer((_) => i);
     }
 
+    useEffect(() => {
+        setData(id, {
+            ...getData(id),
+            answer,
+            correct: correctAnswer
+        });
+        return () => {
+            setData(id, {});
+        }
+    }, [answer, correctAnswer])
+
+
     const ansElements = answer.map((a, i) => (
         <div key={i} className="flex gap-2">
             <input onChange={(e) => switchCorrect(e, i)} type="radio" id={`ans${i}`} name={`ans${i}`} value={a} checked={correctAnswer === i} />
@@ -27,7 +44,6 @@ function MultipleChoice() {
     }
     return (
         <>
-            <textarea className="p-4 border border-[#D8D8D8] rounded-lg w-full h-[200px]" placeholder="Write the question here..."></textarea>
             <fieldset className="w-1/2 grid grid-cols-2 gap-5 p-5 border border-[#D8D8D8]">
                 <legend className="px-2">Provide all the choices and select the right one</legend>
                 {ansElements}

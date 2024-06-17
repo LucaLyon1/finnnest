@@ -11,9 +11,10 @@ interface questionProps {
     id: number,
     type: string,
     setType: (arg0: number, arg1: QuestionType) => void,
+    setData: (arg0: number, arg1: any) => void,
 }
 
-export default function QuestionInput({ id, type, setType }: questionProps) {
+export default function QuestionInput({ id, type, setType, setData }: questionProps) {
     let handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
         const selected = event.target.value as QuestionType;
         setType(id, selected)
@@ -22,18 +23,24 @@ export default function QuestionInput({ id, type, setType }: questionProps) {
 
     const renderQuestion = (t: string) => {
         //TODO: Markdown for textAreas + value for question title
+        //Missing number question
         switch (t) {
             case 'yesno':
                 return (<YesNo />);
             case 'mcq':
-                return (<MultipleChoice />);
+                return (<MultipleChoice id={id} setData={setData} />);
             case 'text':
                 return (<OpenQuestion />);
             case 'file':
-                return (<FileQuestion />)
+                return (<FileQuestion id={id} setData={setData} />)
             default:
                 return (<div>Chose a question type</div>)
         }
+    }
+
+    const handleQuestionTitle = (event: ChangeEvent<HTMLTextAreaElement>) => {
+        const text = event.target.value;
+        setData(id, { title: text });
     }
 
 
@@ -48,6 +55,7 @@ export default function QuestionInput({ id, type, setType }: questionProps) {
                     <option value="file">File input</option>
                 </select>
             </div>
+            <textarea onChange={handleQuestionTitle} className="p-4 border border-[#D8D8D8] rounded-lg w-full h-[200px]" placeholder="Write the question here..."></textarea>
             {renderQuestion(type)}
         </div>
     )
