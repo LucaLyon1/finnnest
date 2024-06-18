@@ -16,6 +16,7 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [questions, setQuestions] = useState<Question[]>([]);
 
     const addQuestion = () => {
+        //TODO: better id handling
         setQuestions(prev => [...prev, { id: prev.length + 1, type: 'yesno', data: {} }])
     }
     const removeQuestion = (id: number) => {
@@ -26,7 +27,6 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
     const updateQuestionData = (id: number, data: any) => {
         setQuestions(prev => prev.map(q => q.id === id ? { ...q, data } : q));
-        console.log(questions);
     }
     const getData = (id: number) => {
         return questions.filter((q) => q.id === id)[0].data

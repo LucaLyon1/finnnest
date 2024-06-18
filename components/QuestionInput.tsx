@@ -6,6 +6,8 @@ import MultipleChoice from "./questionTypes/MultipleChoice";
 import OpenQuestion from "./questionTypes/OpenQuestion";
 import FileQuestion from "./questionTypes/FileQuestion";
 import { QuestionType } from "@/types/question";
+import { useTestContext } from "@/lib/testContext";
+import NumberQuestion from "./questionTypes/NumberQuestion";
 
 interface questionProps {
     id: number,
@@ -15,6 +17,8 @@ interface questionProps {
 }
 
 export default function QuestionInput({ id, type, setType, setData }: questionProps) {
+    let { getData, removeQuestion } = useTestContext();
+
     let handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
         const selected = event.target.value as QuestionType;
         setType(id, selected)
@@ -26,11 +30,13 @@ export default function QuestionInput({ id, type, setType, setData }: questionPr
         //Missing number question
         switch (t) {
             case 'yesno':
-                return (<YesNo />);
+                return (<YesNo id={id} setData={setData} />);
             case 'mcq':
                 return (<MultipleChoice id={id} setData={setData} />);
             case 'text':
                 return (<OpenQuestion />);
+            case 'number':
+                return (<NumberQuestion id={id} setData={setData} />);
             case 'file':
                 return (<FileQuestion id={id} setData={setData} />)
             default:
@@ -40,12 +46,17 @@ export default function QuestionInput({ id, type, setType, setData }: questionPr
 
     const handleQuestionTitle = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const text = event.target.value;
-        setData(id, { title: text });
+        setData(id, {
+            ...getData(id),
+            title: text
+        });
     }
 
 
     return (
         <div className="flex gap-5 flex-col p-4 border border-[#D8D8D8] rounded-lg">
+            {/*TODO: icons */}
+            <button onClick={() => removeQuestion(id)}>delete</button>
             <div className="flex gap-5">
                 <label htmlFor="title" className="text-xl">Question {id}</label>
                 <select onChange={handleChange} name="question" id="cars" className="bg-[#F0F0F0] rounded-lg w-[200px]">

@@ -3,6 +3,7 @@ import { QuestionProps } from "@/types/questionProps";
 import { ChangeEvent, useRef, useState } from "react";
 
 function FileQuestion({ id, setData }: QuestionProps) {
+    //TODO: file handling with supabase
     let [selectedFile, setSelectedFile] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
