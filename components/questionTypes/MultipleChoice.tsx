@@ -5,8 +5,8 @@ import { QuestionProps } from "@/types/questionProps";
 import { ChangeEvent, useState, useEffect } from "react";
 
 
-function MultipleChoice({ id, setData }: QuestionProps) {
-    let [answer, setAnswer] = useState<string[]>([]);
+function MultipleChoice({ id, data, setData }: QuestionProps) {
+    let [answer, setAnswer] = useState<string[]>(data.answer || []);
     let [correctAnswer, setCorrectAnswer] = useState(0);
     let { getData } = useTestContext();
 
@@ -28,7 +28,6 @@ function MultipleChoice({ id, setData }: QuestionProps) {
             correct: correctAnswer
         });
         return () => {
-            setData(id, {});
         }
     }, [answer, correctAnswer])
 

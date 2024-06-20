@@ -1,5 +1,5 @@
 import { Question, QuestionType } from "@/types/question";
-import { ReactNode, createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
 interface TestContextType {
     questions: Question[];
@@ -8,6 +8,12 @@ interface TestContextType {
     updateQuestionType: (id: number, type: QuestionType) => void;
     updateQuestionData: (id: number, data: any) => void;
     getData: (id: number) => any;
+    getRank: (id: number) => number;
+}
+
+let uniqueId = 0;
+const uniqueIdRendering = () => {
+    return uniqueId++;
 }
 
 const testContext = createContext<TestContextType | undefined>(undefined);
@@ -17,10 +23,10 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const addQuestion = () => {
         //TODO: better id handling
-        setQuestions(prev => [...prev, { id: prev.length + 1, type: 'yesno', data: {} }])
+        setQuestions(prev => [...prev, { id: uniqueIdRendering(), type: 'yesno', data: { correct: true } }])
     }
     const removeQuestion = (id: number) => {
-        setQuestions(prev => (prev.filter(q => q.id !== id)));
+        setQuestions(prev => prev.filter(q => q.id !== id));
     }
     const updateQuestionType = (id: number, type: QuestionType) => {
         setQuestions(prev => prev.map(q => q.id === id ? { ...q, type } : q));
@@ -29,10 +35,14 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setQuestions(prev => prev.map(q => q.id === id ? { ...q, data } : q));
     }
     const getData = (id: number) => {
-        return questions.filter((q) => q.id === id)[0].data
+        const question = questions.find((q) => q.id === id);
+        return question ? question.data : {}
+    }
+    const getRank = (id: number) => {
+        return questions.findIndex((q) => q.id == id);
     }
     return (
-        <testContext.Provider value={{ questions, addQuestion, removeQuestion, updateQuestionType, updateQuestionData, getData }}
+        <testContext.Provider value={{ questions, addQuestion, removeQuestion, updateQuestionType, updateQuestionData, getData, getRank }}
         >
             {children}
         </testContext.Provider>

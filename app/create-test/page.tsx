@@ -13,9 +13,10 @@ function createTest() {
         addQuestion();
     }
 
-    let questionElemens = questions.map((q) => (
-        <QuestionInput key={q.id} id={q.id} type={q.type} setType={updateQuestionType} setData={updateQuestionData} />
+    let questionElemens = questions.map((q, i) => (
+        <QuestionInput key={i} id={q.id} type={q.type} />
     ))
+
     return (
         <div>
             <Subheader />
