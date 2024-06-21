@@ -1,8 +1,9 @@
+import QuestionInput from "@/components/QuestionInput";
 import { Question, QuestionType } from "@/types/question";
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
 interface TestContextType {
-    questions: Question[];
+    getQuestions: () => JSX.Element[],
     addQuestion: () => void;
     removeQuestion: (id: number) => void;
     updateQuestionType: (id: number, type: QuestionType) => void;
@@ -21,8 +22,13 @@ const testContext = createContext<TestContextType | undefined>(undefined);
 export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [questions, setQuestions] = useState<Question[]>([]);
 
+    let getQuestions = () => {
+        return (questions.map((q, i) => (
+            <QuestionInput key={q.id} id={q.id} type={q.type} />
+        )))
+    }
+
     const addQuestion = () => {
-        //TODO: better id handling
         setQuestions(prev => [...prev, { id: uniqueIdRendering(), type: 'yesno', data: { correct: true } }])
     }
     const removeQuestion = (id: number) => {
@@ -42,7 +48,7 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return questions.findIndex((q) => q.id == id);
     }
     return (
-        <testContext.Provider value={{ questions, addQuestion, removeQuestion, updateQuestionType, updateQuestionData, getData, getRank }}
+        <testContext.Provider value={{ getQuestions, addQuestion, removeQuestion, updateQuestionType, updateQuestionData, getData, getRank }}
         >
             {children}
         </testContext.Provider>

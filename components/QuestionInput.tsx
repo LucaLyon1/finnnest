@@ -15,7 +15,7 @@ interface questionProps {
 }
 
 export default function QuestionInput({ id, type }: questionProps) {
-    let { questions, getData, removeQuestion, getRank, updateQuestionData, updateQuestionType } = useTestContext();
+    let { getData, removeQuestion, getRank, updateQuestionData, updateQuestionType } = useTestContext();
 
     let handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
         const selected = event.target.value as QuestionType;

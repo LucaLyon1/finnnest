@@ -1,16 +1,37 @@
 'use client';
+import { useTestContext } from "@/lib/testContext";
 import { QuestionProps } from "@/types/questionProps";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 function FileQuestion({ id, data, setData }: QuestionProps) {
     //TODO: file handling with supabase
-    let [selectedFile, setSelectedFile] = useState<File | null>(null);
+    let [selectedFile, setSelectedFile] = useState<File | null>(data.file);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const { getData } = useTestContext();
+
+    useEffect(() => {
+        if (fileInputRef.current && selectedFile) {
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(selectedFile);
+            fileInputRef.current.files = dataTransfer.files;
+        }
+        return () => {
+            setSelectedFile(null);
+            fileInputRef.current = null;
+            setData(id, {})
+        }
+    }, [selectedFile]);
 
     let handleFile = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            if (validateFile(file)) setSelectedFile(file);
+            if (validateFile(file)) {
+                setSelectedFile(file);
+                setData(id, {
+                    ...getData(id),
+                    file: file,
+                })
+            }
             else {
                 setSelectedFile(null);
                 if (fileInputRef.current) {
@@ -39,11 +60,21 @@ function FileQuestion({ id, data, setData }: QuestionProps) {
         }
         return true;
     };
+    const removeFile = () => {
+        setSelectedFile(null);
+        let newData = getData(id);
+        delete newData.file;
+        setData(id, newData);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ''
+        };
+    }
 
     return (
         <>
             <label htmlFor="fileQ">Drop the file here</label>
-            <input onChange={handleFile} ref={fileInputRef} type="file" name="questFile" />
+            <input onChange={handleFile} type="file" name="questFile" />
+            <button onClick={removeFile}>remove file</button>
         </>
     );
 }

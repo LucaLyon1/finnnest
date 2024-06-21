@@ -7,15 +7,11 @@ import { Question, QuestionType } from "@/types/question";
 import { useState } from "react";
 
 function createTest() {
-    const { questions, addQuestion, removeQuestion, updateQuestionType, updateQuestionData } = useTestContext();
+    const { getQuestions, addQuestion, removeQuestion, updateQuestionType, updateQuestionData } = useTestContext();
 
     let handleAdd = () => {
         addQuestion();
     }
-
-    let questionElemens = questions.map((q, i) => (
-        <QuestionInput key={i} id={q.id} type={q.type} />
-    ))
 
     return (
         <div>
@@ -40,7 +36,7 @@ function createTest() {
                     <p>The future junior should be able to work in complex context such as multi-layered LBO,
                         and quickly and accurately report a high volume of information</p>
                     <hr />
-                    {questionElemens}
+                    {getQuestions()}
                     <button className="m-auto w-[300px] py-2 text-cyan-400 border border-[#D8D8D8] rounded-md hover:bg-[#FAFAFA]" onClick={handleAdd}>Add question</button>
                 </div>
             </div>

@@ -7,7 +7,7 @@ import { ChangeEvent, useState, useEffect } from "react";
 
 function MultipleChoice({ id, data, setData }: QuestionProps) {
     let [answer, setAnswer] = useState<string[]>(data.answer || []);
-    let [correctAnswer, setCorrectAnswer] = useState(0);
+    let [correctAnswer, setCorrectAnswer] = useState(data.correct);
     let { getData } = useTestContext();
 
     let handleType = (event: ChangeEvent<HTMLInputElement>, i: number) => {
@@ -18,7 +18,7 @@ function MultipleChoice({ id, data, setData }: QuestionProps) {
     }
     let switchCorrect = (event: ChangeEvent<HTMLInputElement>, i: number) => {
         const selected = event.target.value;
-        setCorrectAnswer((_) => i);
+        setCorrectAnswer(() => i);
     }
 
     useEffect(() => {
