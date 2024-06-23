@@ -3,6 +3,7 @@ import { Question, QuestionType } from "@/types/question";
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
 interface TestContextType {
+    questions: Question[],
     getQuestions: () => JSX.Element[],
     addQuestion: () => void;
     removeQuestion: (id: number) => void;
@@ -20,6 +21,7 @@ const uniqueIdRendering = () => {
 const testContext = createContext<TestContextType | undefined>(undefined);
 
 export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [section, setSection] = useState(0);
     const [questions, setQuestions] = useState<Question[]>([]);
 
     let getQuestions = () => {
@@ -48,7 +50,7 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return questions.findIndex((q) => q.id == id);
     }
     return (
-        <testContext.Provider value={{ getQuestions, addQuestion, removeQuestion, updateQuestionType, updateQuestionData, getData, getRank }}
+        <testContext.Provider value={{ questions, getQuestions, addQuestion, removeQuestion, updateQuestionType, updateQuestionData, getData, getRank }}
         >
             {children}
         </testContext.Provider>
