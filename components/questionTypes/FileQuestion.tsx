@@ -14,13 +14,12 @@ function FileQuestion({ id, data, setData }: QuestionProps) {
             const dataTransfer = new DataTransfer();
             dataTransfer.items.add(selectedFile);
             fileInputRef.current.files = dataTransfer.files;
+            fileInputRef.current.name = data.file.name
         }
         return () => {
-            setSelectedFile(null);
-            fileInputRef.current = null;
-            setData(id, {})
+
         }
-    }, [selectedFile]);
+    }, [selectedFile, fileInputRef]);
 
     let handleFile = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -73,7 +72,7 @@ function FileQuestion({ id, data, setData }: QuestionProps) {
     return (
         <>
             <label htmlFor="fileQ">Drop the file here</label>
-            <input onChange={handleFile} type="file" name="questFile" />
+            {selectedFile ? <p>{selectedFile.name}</p> : <input onChange={handleFile} type="file" name="questFile" />}
             <button onClick={removeFile}>remove file</button>
         </>
     );

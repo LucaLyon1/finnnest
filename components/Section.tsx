@@ -1,17 +1,23 @@
 import { useTestContext } from "@/lib/testContext";
 
 interface SectionProps {
-    sectionName: string
+    id: number
 }
 
-function Section({ sectionName }: SectionProps) {
-    const { questions } = useTestContext();
+function Section({ id }: SectionProps) {
+    const { questions, section, updateCurrentSection, getSection, newSection, getSections } = useTestContext();
+
+    //newSection is kind of like navigate
+    const setSection = () => {
+        updateCurrentSection(id);
+    }
+
     return (
         <>
-            <div className="my-5">
-                <p className="text-cyan-400">{questions.length} questions</p>
-                <p className="font-medium">{sectionName}</p>
-            </div>
+            <button onClick={setSection} className=" hover:bg-slate-100 text-start">
+                <p className="text-cyan-400">{questions.filter((q) => q.section.id === id).length} questions</p>
+                <p className="font-medium">{getSection(id)?.title}</p>
+            </button>
         </>
     );
 }

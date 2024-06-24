@@ -6,6 +6,9 @@ function Subheader() {
     const handlePublish = () => {
         console.log(questions);
     }
+    const saveTest = () => {
+        localStorage.setItem('test', JSON.stringify(questions))
+    }
     return (
         <div className="w-full 
         h-[200px] 
@@ -20,7 +23,7 @@ function Subheader() {
                     <p>Dashboard / Create Test</p>
                 </div>
                 <div className="flex gap-5 h-full items-center">
-                    <button className="w-28 h-10 bg-white border border-[#D8D8D8] rounded-full">Save</button>
+                    <button onClick={saveTest} className="w-28 h-10 bg-white border border-[#D8D8D8] rounded-full hover:scale-105 transition-all hover:bg-cyan-400">Save</button>
                     <button onClick={handlePublish} className="w-28 h-10 bg-cyan-400 border border-cyan-400 rounded-full">Publish</button>
                 </div>
             </div>
