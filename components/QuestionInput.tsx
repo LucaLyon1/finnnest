@@ -8,6 +8,7 @@ import FileQuestion from "./questionTypes/FileQuestion";
 import { QuestionType } from "@/types/question";
 import { useTestContext } from "@/lib/testContext";
 import NumberQuestion from "./questionTypes/NumberQuestion";
+import { RxCross2 } from "react-icons/rx";
 
 interface questionProps {
     id: number,
@@ -51,9 +52,9 @@ export default function QuestionInput({ id, type }: questionProps) {
 
 
     return (
-        <div className="flex gap-5 flex-col p-4 border border-[#D8D8D8] rounded-lg">
+        <div className="relative flex gap-5 flex-col p-4 border border-[#D8D8D8] rounded-lg">
             {/*TODO: icons */}
-            <button onClick={() => removeQuestion(id)}>delete</button>
+            <button className="absolute right-5 text-red-500 text-3xl h-8 w-8 hover:bg-gray-200 transition-all rounded-sm" onClick={() => removeQuestion(id)}><RxCross2 className="m-auto" /></button>
             <div className="flex gap-5">
                 <label htmlFor="title" className="text-xl">Question {getRank(id) + 1}</label>
                 <select value={type} onChange={handleChange} name="question" id="cars" className="bg-[#F0F0F0] rounded-lg w-[200px]">

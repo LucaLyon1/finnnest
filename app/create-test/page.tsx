@@ -38,7 +38,7 @@ function createTest() {
                 {/* TODO:  own component, type as prop*/}
                 <div className="col-span-3 border border-[#D8D8D8] w-[90%] m-auto rounded-lg shadow-sm p-10 flex flex-col gap-10">
                     {/* TODO:  dynamic section name */}
-                    <input className="text-2xl w-1/3 focus:ring" value={getSection(getCurrentSection())?.title} onChange={handleSectionName} />
+                    <input className="text-2xl w-1/3 focus:ring p-2 border-2 border-[#D8D8D8] rounded-md" value={getSection(getCurrentSection())?.title} onChange={handleSectionName} />
                     <p>
                         The future junior should be able to work in complex context such as multi-layered LBO,
                         and quickly and accurately report a high volume of information
