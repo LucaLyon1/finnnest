@@ -18,7 +18,7 @@ function Navbar() {
             <Link href='/job-board' className="flex-1"><div>Job board</div></Link>
             <div className="flex-1 flex gap-3 items-center m-auto">
                 <button className="w-36 py-3 border-2 rounded-full border-cyan-400">Book a demo</button>
-                <Link href='/create-test'><button className="w-36 py-3 border-2 rounded-full border-cyan-400 bg-cyan-400 text-white">Try for free</button></Link>
+                <Link href='/create-offer'><button className="w-36 py-3 border-2 rounded-full border-cyan-400 bg-cyan-400 text-white hover:scale-105 hover:bg-cyan-500 transition-all">Try for free</button></Link>
             </div>
         </nav>
     );

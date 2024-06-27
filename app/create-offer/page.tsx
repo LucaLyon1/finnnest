@@ -19,7 +19,7 @@ function CreateOffer() {
         city: '',
         description: '',
         type: '',
-        salary: { frequence: 'monthly', low: 30000, high: 40000 },
+        salary: { frequence: 'monthly', low: 0, high: 0 },
         company: ''
     });
 
@@ -95,8 +95,10 @@ function CreateOffer() {
                         </div>
                     </div>
                 </div>
-                <div className="w-1/2 flex justify-end gap-5 ml-auto">
+                <div className="w-1/2 flex justify-end gap-5 ml-auto items-baseline">
+                    <span>between</span>
                     <input onChange={handleSalary} value={formData.salary.low} placeholder="30 000$" className="w-1/2 p-2 rounded-md border-2 border-[#D8D8D8] mb-5" type="number" name="low" id="salary1" />
+                    <span>and</span>
                     <input onChange={handleSalary} value={formData.salary.high} placeholder="40 000$" className="w-1/2 p-2 rounded-md border-2 border-[#D8D8D8] mb-5" type="number" name="high" id="salary2" />
                 </div>
                 <hr className="w-full" />
@@ -107,8 +109,8 @@ function CreateOffer() {
                 <hr className="w-full" />
                 <div className="m-auto mt-5">
                     <Link onClick={printData} href="/create-test" >
-                        <button className="py-3 w-[100px] text-white text-md bg-cyan-300 rounded-full transition-all hover:scale-105 hover:bg-cyan-400">
-                            Next
+                        <button className="py-2 px-3 text-white text-lg bg-cyan-300 rounded-full transition-all hover:scale-105 hover:bg-cyan-400">
+                            Create associated test
                         </button>
                     </Link>
                 </div>
