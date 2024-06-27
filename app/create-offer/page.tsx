@@ -9,7 +9,7 @@ interface JobOffer {
     city: string,
     description: string,
     type: string,
-    salary: { frequence: string, amount: number[] },
+    salary: { frequence: string, low: number, high: number },
     company: string
 }
 
@@ -19,14 +19,20 @@ function CreateOffer() {
         city: '',
         description: '',
         type: '',
-        salary: { frequence: 'monthly', amount: [30000, 40000] },
+        salary: { frequence: 'monthly', low: 30000, high: 40000 },
         company: ''
     });
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-        console.log(formData);
+    }
+
+    const handleSalary = (e: ChangeEvent<HTMLInputElement>) => {
+        let { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, salary: { ...prev.salary, [name]: value } }));
+    }
+    const printData = () => {
     }
     return (
         <div>
@@ -76,22 +82,22 @@ function CreateOffer() {
                     <label htmlFor="jobdesc" className="text-lg font-medium w-full">Salary</label>
                     <div className="flex w-full gap-5">
                         <div className="border-2 border-[#D8D8D8] w-1/3 h-32 rounded-md text-center flex flex-col justify-center gap-3">
-                            <input onChange={handleChange} type="radio" name="salary" id="hourly" value="hourly" />
+                            <input onChange={handleSalary} type="radio" name="frequence" id="hourly" value="hourly" />
                             <label htmlFor="hourly">Hourly</label>
                         </div>
                         <div className="border-2 border-[#D8D8D8] w-1/3 h-32 rounded-md text-center flex flex-col justify-center gap-3">
-                            <input onChange={handleChange} type="radio" name="salary" id="monthly" value="monthly" />
+                            <input onChange={handleSalary} type="radio" name="frequence" id="monthly" value="monthly" />
                             <label htmlFor="monthly">Monthly</label>
                         </div>
                         <div className="border-2 border-[#D8D8D8] w-1/3 h-32 rounded-md text-center flex flex-col justify-center gap-3">
-                            <input onChange={handleChange} type="radio" name="salary" id="annually" value="annually" />
+                            <input onChange={handleSalary} type="radio" name="frequence" id="annually" value="annually" />
                             <label htmlFor="annually">Annually</label>
                         </div>
                     </div>
                 </div>
                 <div className="w-1/2 flex justify-end gap-5 ml-auto">
-                    <input value={formData.salary.amount[0]} placeholder="30 000$" className="w-1/2 p-2 rounded-md border-2 border-[#D8D8D8] mb-5" type="number" name="salary" id="salary1" />
-                    <input value={formData.salary.amount[1]} placeholder="40 000$" className="w-1/2 p-2 rounded-md border-2 border-[#D8D8D8] mb-5" type="number" name="salary" id="salary2" />
+                    <input onChange={handleSalary} value={formData.salary.low} placeholder="30 000$" className="w-1/2 p-2 rounded-md border-2 border-[#D8D8D8] mb-5" type="number" name="low" id="salary1" />
+                    <input onChange={handleSalary} value={formData.salary.high} placeholder="40 000$" className="w-1/2 p-2 rounded-md border-2 border-[#D8D8D8] mb-5" type="number" name="high" id="salary2" />
                 </div>
                 <hr className="w-full" />
                 <div className="flex items-center w-full my-5">
@@ -100,7 +106,7 @@ function CreateOffer() {
                 </div>
                 <hr className="w-full" />
                 <div className="m-auto mt-5">
-                    <Link href="/create-test" >
+                    <Link onClick={printData} href="/create-test" >
                         <button className="py-3 w-[100px] text-white text-md bg-cyan-300 rounded-full transition-all hover:scale-105 hover:bg-cyan-400">
                             Next
                         </button>
