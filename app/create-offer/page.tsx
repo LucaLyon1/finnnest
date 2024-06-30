@@ -2,6 +2,7 @@
 
 import SubheaderOffer from "@/components/SubhearOffer";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 
 interface JobOffer {
@@ -13,6 +14,9 @@ interface JobOffer {
     company: string
 }
 
+let disabledStyle = "bg-cyan-200 cursor-not-allowed"
+let btnStyle = "bg-cyan-300 hover:scale-105 hover:bg-cyan-400"
+
 function CreateOffer() {
     const [formData, setFormData] = useState<JobOffer>({
         title: '',
@@ -22,6 +26,7 @@ function CreateOffer() {
         salary: { frequence: 'monthly', low: 0, high: 0 },
         company: ''
     });
+    const router = useRouter();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -32,8 +37,21 @@ function CreateOffer() {
         let { name, value } = e.target;
         setFormData((prev) => ({ ...prev, salary: { ...prev.salary, [name]: value } }));
     }
-    const printData = () => {
+    const navigateTest = () => {
+        router.push('/create-test')
+    };
+    const validateData = () => {
+        const { title, city, description, type, salary, company } = formData;
+        if (title == '') return false;
+        if (city == '') return false;
+        if (description == '') return false;
+        if (type == '') return false;
+        if (salary.low == 0) return false;
+        if (salary.high == 0) return false;
+        if (company == '') return false;
+        return true;
     }
+
     return (
         <div>
             <SubheaderOffer />
@@ -108,14 +126,12 @@ function CreateOffer() {
                 </div>
                 <hr className="w-full" />
                 <div className="m-auto mt-5">
-                    <Link onClick={printData} href="/create-test" >
-                        <button className="py-2 px-3 text-white text-lg bg-cyan-300 rounded-full transition-all hover:scale-105 hover:bg-cyan-400">
-                            Create associated test
-                        </button>
-                    </Link>
+                    <button disabled={!validateData()} onClick={navigateTest} className={'py-2 px-3 text-white text-lg rounded-full transition-all ' + (validateData() ? btnStyle : disabledStyle)}>
+                        Create associated test
+                    </button>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 
