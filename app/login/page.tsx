@@ -1,14 +1,27 @@
-import { login, signup } from '@/app/login/actions'
+import { login, signup, handleSignIn } from '@/app/login/actions'
+import { FcGoogle } from 'react-icons/fc'
 
 export default function LoginPage() {
     return (
-        <form>
+        <form className='border-2 border-[#D8D8D8] w-3/4 lg:w-1/2 2xl:w-1/3 m-auto flex flex-col gap-5 p-5 rounded-md'>
             <label htmlFor="email">Email:</label>
-            <input id="email" name="email" type="email" required />
+            <input className='p-2 border-2 border-[#D8D8D8] rounded-md ' id="email" name="email" type="email" required />
             <label htmlFor="password">Password:</label>
-            <input id="password" name="password" type="password" required />
-            <button formAction={login}>Log in</button>
-            <button formAction={signup}>Sign up</button>
+            <input className='p-2 border-2 border-[#D8D8D8] rounded-md ' id="password" name="password" type="password" required />
+            <hr />
+            <div>
+                <button className='flex gap-5 border-2 border-[#D8D8D8] p-2 justify-center items-center rounded-md w-full hover:bg-[#D8D8D8] transition-all text-lg'
+                    formAction={handleSignIn}
+                >
+                    <FcGoogle className='text-3xl' />
+                    <span>Sign in with google</span>
+                </button>
+
+            </div>
+            <div className='flex gap-5 justify-center'>
+                <button className='p-2 border-2 bg-cyan-400 border-cyan-400 w-20 rounded-md text-white m-auto hover:bg-cyan-500 transition-all hover:scale-105' formAction={login}>Log in</button>
+                <button className='p-2 border-2 border-cyan-400 w-20 rounded-md text-cyan-400 m-auto hover:bg-cyan-400 transition-all hover:text-white hover:scale-105' formAction={signup}>Sign up</button>
+            </div>
         </form>
     )
 }
