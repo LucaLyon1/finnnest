@@ -1,17 +1,28 @@
 'use client'
 
 import { createClient } from "@/lib/supabase/client";
+import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 function Navbar() {
+    const supabase = createClient();
     const router = useRouter();
+    const [session, setSession] = useState<User | null>(null)
     const signOut = async () => {
-        const supabase = createClient();
-
         await supabase.auth.signOut();
         router.refresh();
     }
+
+    useEffect(() => {
+        const getUser = async () => {
+            return await supabase.auth.getUser();
+        }
+        getUser().then((data) => setSession(data.data.user))
+    }, [supabase])
+
+
     return (
         <nav className="h-[100px] 
         w-[100%] 
@@ -32,7 +43,7 @@ function Navbar() {
                 <button className="w-36 py-3 border-2 rounded-full border-cyan-400">Book a demo</button>
                 <Link href='/create-offer'><button className="w-36 py-3 border-2 rounded-full border-cyan-400 bg-cyan-400 text-white hover:scale-105 hover:bg-cyan-500 transition-all">Try for free</button></Link>
             </div>
-            <button onClick={signOut}>sign out</button>
+            {session && <button onClick={signOut}>sign out</button>}
         </nav>
     );
 }

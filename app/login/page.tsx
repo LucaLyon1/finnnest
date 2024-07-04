@@ -9,6 +9,17 @@ export default function LoginPage() {
             <label htmlFor="password">Password:</label>
             <input className='p-2 border-2 border-[#D8D8D8] rounded-md ' id="password" name="password" type="password" required />
             <hr />
+            <div className='flex justify-around'>
+                <div className='flex gap-2'>
+                    <input type="radio" name="candidate" value="candidate" checked />
+                    <label htmlFor="candidate">Candidate</label>
+                </div>
+                <div className='flex gap-2'>
+                    <input type="radio" name="candidate" value="recruiter" checked />
+                    <label htmlFor="recruiter">Recruiter</label>
+                </div>
+            </div>
+            <hr />
             <div>
                 <button className='flex gap-5 border-2 border-[#D8D8D8] p-2 justify-center items-center rounded-md w-full hover:bg-[#D8D8D8] transition-all text-lg'
                     formAction={handleSignIn}
@@ -16,7 +27,6 @@ export default function LoginPage() {
                     <FcGoogle className='text-3xl' />
                     <span>Sign in with google</span>
                 </button>
-
             </div>
             <div className='flex gap-5 justify-center'>
                 <button className='p-2 border-2 bg-cyan-400 border-cyan-400 w-20 rounded-md text-white m-auto hover:bg-cyan-500 transition-all hover:scale-105' formAction={login}>Log in</button>
