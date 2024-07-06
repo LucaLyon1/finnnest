@@ -6,6 +6,10 @@ export default function LoginPage() {
         <form className='border-2 border-[#D8D8D8] w-3/4 lg:w-1/2 2xl:w-1/3 m-auto flex flex-col gap-5 p-5 rounded-md'>
             <label htmlFor="email">Email:</label>
             <input className='p-2 border-2 border-[#D8D8D8] rounded-md ' id="email" name="email" type="email" required />
+            <label htmlFor="firstname">First Name:</label>
+            <input className='p-2 border-2 border-[#D8D8D8] rounded-md ' id="firstname" name="firstname" type="firstname" required />
+            <label htmlFor="lastname">Last Name:</label>
+            <input className='p-2 border-2 border-[#D8D8D8] rounded-md ' id="lastname" name="lastname" type="lastname" required />
             <label htmlFor="password">Password:</label>
             <input className='p-2 border-2 border-[#D8D8D8] rounded-md ' id="password" name="password" type="password" required />
             <hr />
