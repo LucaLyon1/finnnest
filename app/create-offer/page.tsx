@@ -1,6 +1,7 @@
 'use client';
 
 import SubheaderOffer from "@/components/SubhearOffer";
+import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
@@ -26,6 +27,7 @@ function CreateOffer() {
         salary: { frequence: 'monthly', low: 0, high: 0 },
         company: ''
     });
+    const [errorMsg, setErrorMsg] = useState('');
     const router = useRouter();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -37,8 +39,16 @@ function CreateOffer() {
         let { name, value } = e.target;
         setFormData((prev) => ({ ...prev, salary: { ...prev.salary, [name]: value } }));
     }
-    const navigateTest = () => {
-        router.push('/create-test')
+    const navigateTest = async () => {
+        const supabase = createClient();
+        const { data, error } = await supabase.from('offers').insert({
+            datas: JSON.stringify(formData)
+        });
+        if (!error) {
+            router.push('/create-test');
+        } else {
+            setErrorMsg(() => error.message);
+        }
     };
     const validateData = () => {
         const { title, city, description, type, salary, company } = formData;
@@ -126,6 +136,7 @@ function CreateOffer() {
                 </div>
                 <hr className="w-full" />
                 <div className="m-auto mt-5">
+                    {errorMsg && <span>{errorMsg}</span>}
                     <button disabled={!validateData()} onClick={navigateTest} className={'py-2 px-3 text-white text-lg rounded-full transition-all ' + (validateData() ? btnStyle : disabledStyle)}>
                         Create associated test
                     </button>
