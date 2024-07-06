@@ -27,7 +27,19 @@ export async function GET(request: Request) {
                 },
             }
         )
-        const { error } = await supabase.auth.exchangeCodeForSession(code)
+        //create role for user if it does not exist
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+        const { data: { user } } = await supabase.auth.getUser();
+        const obj = await supabase.from('users').select('*').eq('id', user?.id);
+        if (!obj.count) {
+            const [firstname, lastname] = user?.user_metadata.name.split(' ');
+            await supabase.from("users").insert({
+                id: user?.id,
+                first_name: firstname,
+                last_name: lastname,
+                role: 'candidate',
+            })
+        }
         if (!error) {
             return NextResponse.redirect(`${origin}${next}`)
         }
