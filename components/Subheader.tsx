@@ -1,19 +1,26 @@
 import { createClient } from "@/lib/supabase/client";
 import { useTestContext } from "@/lib/testContext";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { v4 as uuidv4 } from 'uuid';
 
 function Subheader() {
     const { questions } = useTestContext();
     const router = useRouter();
-
+    const searchParams = useSearchParams();
+    const offerId = searchParams.get('offerId');
     const handlePublish = async () => {
         const supabase = createClient();
+        const id = uuidv4();
         const { data, error } = await supabase.from('tests').insert({
+            id: id,
             questions: JSON.stringify(questions),
             public: true,
         });
         if (!error) {
-            router.push('/offer-recap')
+            const { data, error } = await supabase.from('offers').update({ test_id: id }).eq('id', offerId);
+            if (!error) {
+                router.push('/offer-recap?id=' + offerId);
+            }
         }
     }
     const saveTest = async () => {

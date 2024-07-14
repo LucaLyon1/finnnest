@@ -2,6 +2,8 @@ import QuestionInput from "@/components/QuestionInput";
 import { Question, QuestionType } from "@/types/question";
 import { Section } from "@/types/section";
 import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useEffect, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
+
 
 interface TestContextType {
     questions: Question[],
@@ -19,6 +21,8 @@ interface TestContextType {
     updateCurrentSection: (id: number) => void;
     getCurrentSection: () => number;
     newSection: (arg: string) => void;
+    offerId: string,
+    updateOfferId: (id: string) => void,
 }
 
 let uniqueId = 0;
@@ -32,6 +36,7 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const [section, setSection] = useState<Section[]>([{ id: uniqueIdRendering(), title: 'Enter section name' }]);
     const [currentSection, setCurrentSection] = useState(section[0].id)
     const [questions, setQuestions] = useState<Question[]>([]);
+    const [offerId, setOfferId] = useState<string>('');
 
     let getQuestions = () => {
         let sectionQuestions = questions.filter((q) => q.section?.id == currentSection)
@@ -81,8 +86,12 @@ export const TestProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const updateCurrentSection = (id: number) => {
         setCurrentSection(() => id)
     }
+    const updateOfferId = (id: string) => {
+        console.log('in context', id);
+        setOfferId(() => id);
+    }
     return (
-        <testContext.Provider value={{ questions, updateCurrentSection, getCurrentSection, getSection, newSection, section, getSections, updateSection, getQuestions, addQuestion, removeQuestion, updateQuestionType, updateQuestionData, getData, getRank }}
+        <testContext.Provider value={{ offerId, updateOfferId, questions, updateCurrentSection, getCurrentSection, getSection, newSection, section, getSections, updateSection, getQuestions, addQuestion, removeQuestion, updateQuestionType, updateQuestionData, getData, getRank }}
         >
             {children}
         </testContext.Provider>

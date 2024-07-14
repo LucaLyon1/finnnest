@@ -4,8 +4,7 @@ import QuestionInput from "@/components/QuestionInput";
 import Section from "@/components/Section";
 import Subheader from "@/components/Subheader";
 import { useTestContext } from "@/lib/testContext";
-import { Question, QuestionType } from "@/types/question";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 
 function createTest() {
     const { questions, section, getSection, getCurrentSection, newSection, getSections, updateSection, getQuestions, addQuestion, removeQuestion, updateQuestionType, updateQuestionData } = useTestContext();
@@ -21,7 +20,7 @@ function createTest() {
         newSection('Enter section name');
     }
 
-    const sectionElements = getSections().map((s, i) => (
+    const sectionElements = getSections().map((s) => (
         <Section id={s.id} key={s.id} />
     ))
 

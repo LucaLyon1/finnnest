@@ -2,9 +2,10 @@
 
 import SubheaderOffer from "@/components/SubhearOffer";
 import { createClient } from "@/lib/supabase/client";
-import Link from "next/link";
+import { useTestContext } from "@/lib/testContext";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
+import { v4 as uuidv4 } from 'uuid'
 
 interface JobOffer {
     title: string,
@@ -41,11 +42,20 @@ function CreateOffer() {
     }
     const navigateTest = async () => {
         const supabase = createClient();
-        const { data, error } = await supabase.from('offers').insert({
-            datas: JSON.stringify(formData)
+        const id = uuidv4();
+        const { error } = await supabase.from('offers').insert({
+            id: id,
+            title: formData.title,
+            city: formData.city,
+            description: formData.description,
+            type: formData.type,
+            company: formData.company,
+            salary_frequency: formData.salary.frequence,
+            salary_low: formData.salary.low,
+            salary_high: formData.salary.high,
         });
         if (!error) {
-            router.push('/create-test');
+            router.push('/create-test?offerId=' + id);
         } else {
             setErrorMsg(() => error.message);
         }
